@@ -20,6 +20,7 @@ async function signup(e){
 
     const response = await axios.post('http://localhost:3000/user/signup', userDetails);
     if(response.status === 200){
+        window.location.href = ('../login/login.html');
         console.log("User added successfully");
     }
     else{
