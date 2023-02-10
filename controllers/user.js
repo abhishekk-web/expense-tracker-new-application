@@ -1,4 +1,5 @@
 const user = require('../models/user');
+const bcrypt = require('bcrypt');
 
 //This function is for checking that user is filling all the form that required or not
 
@@ -17,6 +18,9 @@ exports.signUp = async (req, res) => {
 
     try {
 
+        // we are using saltRounds so that we can set our password more critical as we increase our saltRounds
+        const saltRounds = 10;
+
         const {name, email, password}= req.body;
 
             // here we are calling the function that checks the user filled all the form or not
@@ -32,8 +36,13 @@ exports.signUp = async (req, res) => {
             res.status(404).json({success:false, message: "User already exist"});
         }
         else{   // if user is not present here we'll create the user
-            const data = user.create({name: name, email: email, password: password});
-            res.status(200).json({success: true, message: "successfully added user", data:data});
+            bcrypt.hash(password, saltRounds, async(err, hash)=> {  // firstly we our using brcypt here, where took password first then saltrounds
+
+                console.log(err);
+                const data = user.create({name: name, email: email, password: hash});   // here we sets our password as hash
+                res.status(200).json({success: true, message: "successfully added user", data:data});
+
+            })
         }
 
     }
@@ -62,14 +71,21 @@ exports.login = async (req, res) => {
     const data = await user.findAll({where: {email:email}});
     if(data.length > 0){
 
-        if(data[0].password == password){ // after that here we are checking that the password of the user matched or not
-        console.log(data);
-            return res.status(200).json({success: true, message: "user found successfully", data: data});
-        }
-        else{   
-            // throw new Error;            
-            return res.status(404).json({success: false, message: "password is incorrect"});    // if the password is incorrect then sends the json response that password is incorrect
-        }
+        bcrypt.compare(password, data[0].password, (err, response) => { // here we our comparing our hash password using compare function, firstly we need the password that user entered then the user's password that stored on database
+
+            if(err){
+                throw new Error("Something went wrong");    // if there's any wrong while comparing the password it will give the error and sends into the catch block
+
+            }
+            if(response == true){   
+                // throw new Error;            
+                return res.status(200).json({success: true, message: "user found successfully", data: data});
+            }
+            else{
+                return res.status(404).json({success: false, message: "password is incorrect"});    // if the password is incorrect then sends the json response that password is incorrect
+
+            }
+        }) 
     }
     else{
         // throw new Error;
