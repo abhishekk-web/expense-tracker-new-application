@@ -8,7 +8,7 @@ async function signup(e){
 
     e.preventDefault();
 
-    console.log(e.target.name.value);
+    // here we are getting all the data that user filled
 
     const userDetails = {
         name: e.target.name.value,
@@ -16,21 +16,21 @@ async function signup(e){
         password: e.target.password.value
     }
 
-    console.log(userDetails);
+    // here we are sending all the data from frontend to backend
 
     const response = await axios.post('http://localhost:3000/user/signup', userDetails);
     if(response.status === 200){
-        window.location.href = ('../login/login.html');
-        console.log("User added successfully");
+        alert(response.data.message);
+        window.location.href = ('../login/login.html'); // if the user found then it goes to the login form
     }
     else{
-        console.log("user already exist");
+        throw new Error(response.data.message); // we there is an error it will goes to the catch block
     }
 
 
     }
     catch(err){
-        console.log(err);
+        document.body.innerHTML += `<div style="color:red;">${err.message}</div>`       // it gets all the error
     }
 
 }
