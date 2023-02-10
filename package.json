@@ -6,5 +6,24 @@
     "mysql2": "^3.1.2",
     "nodemon": "^2.0.20",
     "sequelize": "^6.28.0"
-  }
+  },
+  "name": "expense-tracker-new-application",
+  "description": "��#\u0000 \u0000e\u0000x\u0000p\u0000e\u0000n\u0000s\u0000e\u0000-\u0000t\u0000r\u0000a\u0000c\u0000k\u0000e\u0000r\u0000-\u0000n\u0000e\u0000w\u0000-\u0000a\u0000p\u0000p\u0000l\u0000i\u0000c\u0000a\u0000t\u0000i\u0000o\u0000n\u0000\r\u0000 \u0000",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhishekk-web/expense-tracker-new-application.git"
+  },
+  "author": "Abhishek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhishekk-web/expense-tracker-new-application/issues"
+  },
+  "homepage": "https://github.com/abhishekk-web/expense-tracker-new-application#readme"
 }
