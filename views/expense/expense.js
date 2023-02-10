@@ -15,7 +15,8 @@ async function mySave(e){
 
     // here we are adding the expenses
 
-    const response = await axios.post('http://localhost:3000/expense/addexpense', expenseDetails);
+    const token = localStorage.getItem("token");
+    const response = await axios.post('http://localhost:3000/expense/addexpense', expenseDetails, {headers: {"Authorization": token}});
     if(response.status === 200){
         alert(response.data.message);
         showExpenses(response.data.data);
@@ -45,7 +46,8 @@ async function showPost() {
 
     try {
 
-        const response = await axios.get("http://localhost:3000/expense/expenses");
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:3000/expense/expenses", {headers: {"Authorization": token}});
         console.log(response);
         response.data.data.forEach(expense => {
             showExpenses(expense);
@@ -79,14 +81,15 @@ async function deleteUser(userid){
 
     try{
 
-        await axios.delete(`http://localhost:3000/expense/deleteexpense/${userid}`);
+        const token = localStorage.getItem("token");
+        const data = await axios.delete(`http://localhost:3000/expense/deleteexpense/${userid}`, {headers: {"Authorization": token}});
+        console.log(data);
         removeuser(userid);
         alert("expense successfully deleted");
 
     }
     catch(err){
-        console.log("there is an error")
-        console.log(err);
+      console.log("this order don't belong to the user");
     }
 
 }

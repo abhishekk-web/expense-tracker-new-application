@@ -7,8 +7,9 @@ exports.addExpense = async (req, res) => {
     try {
 
     const {expense, description, category} = req.body;
-
-    const data = await Expense.create({expense:expense, description:description, category:category});
+        const userId = req.user.id;
+        console.log(userId);
+    const data = await req.user.createExpense({expense:expense, description:description, category:category});
     res.status(200).json({success: true, message: "successfully saving expense", data:data});
 
     }
@@ -23,8 +24,8 @@ exports.addExpense = async (req, res) => {
 exports.getExpense = async (req, res) => {
 
     try {
-
-        const data = await Expense.findAll();
+        const userId = req.user.id;
+        const data = await Expense.findAll({where:{userId:userId}});
         res.status(200).json({data:data});
 
     }
@@ -39,9 +40,19 @@ exports.getExpense = async (req, res) => {
 exports.deleteExpense = async (req, res) => {
 
     try {
-
+        const userid = req.user.id;
         const expenseId = req.params.id;
-        const data = await Expense.destroy({where: {id:expenseId}});
+
+        if(expenseId == undefined || expenseId === 0){
+            res.status(400).json({success: false})
+        }
+
+        const data = await Expense.destroy({where: {id:expenseId, userId: userid}});
+
+        if(data === 0){
+            return res.status(400).json({success: false, messsage: "This expense is not belong to the user"});
+        }
+
         res.status(200).json({message: "expense successfully deleted"});
 
     }

@@ -19,14 +19,26 @@ app.use(cors());
 const userRoutes = require('./routes/user');
 const expenseRoutes = require('./routes/expense');
 
+// here we are requiring all the models
+
+const user = require('./models/user');
+const expense = require('./models/expense');
+
 // we are using all the routes here
 
 app.use("/user",userRoutes);
 app.use("/expense", expenseRoutes);
 
+// here we are doing the associations
+
+user.hasMany(expense);
+expense.belongsTo(user);
+
 // our server is running here
 
-sequelize.sync()
+sequelize
+// .sync({force:true})
+.sync()
 .then(result => {
     app.listen(3000);
 })

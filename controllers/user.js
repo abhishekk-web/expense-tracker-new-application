@@ -1,5 +1,6 @@
 const user = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 //This function is for checking that user is filling all the form that required or not
 
@@ -51,6 +52,13 @@ exports.signUp = async (req, res) => {
     }
     
 }
+
+// we are using a function for json web token through that we can encrypt the user id
+
+function generateAccessToken(id, name) {
+    return jwt.sign({ userId: id, name: name}, 'secrets');
+}
+
 // controller for login page
 
 exports.login = async (req, res) => {
@@ -79,7 +87,7 @@ exports.login = async (req, res) => {
             }
             if(response == true){   
                 // throw new Error;            
-                return res.status(200).json({success: true, message: "user found successfully", data: data});
+                return res.status(200).json({success: true, message: "user found successfully", token:generateAccessToken(data[0].id, data[0].name) });
             }
             else{
                 return res.status(404).json({success: false, message: "password is incorrect"});    // if the password is incorrect then sends the json response that password is incorrect

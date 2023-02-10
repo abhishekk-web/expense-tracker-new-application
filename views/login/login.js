@@ -19,6 +19,7 @@ async function login(e) {
     console.log(response);
     if(response.status === 200){
         alert(response.data.message);
+        localStorage.setItem("token", response.data.token);
         window.location.href = "../expense/expense.html";   // if the user found then it sends to the main page of this application
     }else{
         throw new Error(response.data.message) // if user not found or there is an any other issue it will sends into the catch block
