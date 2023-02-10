@@ -17,11 +17,12 @@ app.use(cors());
 // All the routes that are required are here
 
 const userRoutes = require('./routes/user');
-
+const expenseRoutes = require('./routes/expense');
 
 // we are using all the routes here
 
 app.use("/user",userRoutes);
+app.use("/expense", expenseRoutes);
 
 // our server is running here
 

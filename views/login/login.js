@@ -18,7 +18,8 @@ async function login(e) {
     const response = await axios.post('http://localhost:3000/user/login',userDetails);
     console.log(response);
     if(response.status === 200){
-        alert(response.data.message);   // if the user found then it sends to the main page of this application
+        alert(response.data.message);
+        window.location.href = "../expense/expense.html";   // if the user found then it sends to the main page of this application
     }else{
         throw new Error(response.data.message) // if user not found or there is an any other issue it will sends into the catch block
     }
