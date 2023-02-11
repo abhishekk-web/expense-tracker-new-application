@@ -55,8 +55,8 @@ exports.signUp = async (req, res) => {
 
 // we are using a function for json web token through that we can encrypt the user id
 
-function generateAccessToken(id, name) {
-    return jwt.sign({ userId: id, name: name}, 'secrets');
+const  generateAccessToken = (id, name, isPremiumUser) =>{
+    return jwt.sign({ userId: id, name: name, isPremiumUser}, 'secrets');
 }
 
 // controller for login page
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
             }
             if(response == true){   
                 // throw new Error;            
-                return res.status(200).json({success: true, message: "user found successfully", token:generateAccessToken(data[0].id, data[0].name) });
+                return res.status(200).json({success: true, message: "user found successfully", token:generateAccessToken(data[0].id, data[0].name, data[0].isPremiumUser) });
             }
             else{
                 return res.status(404).json({success: false, message: "password is incorrect"});    // if the password is incorrect then sends the json response that password is incorrect
@@ -107,3 +107,5 @@ exports.login = async (req, res) => {
 
 
 }
+
+exports.generateAccessToken = generateAccessToken;
