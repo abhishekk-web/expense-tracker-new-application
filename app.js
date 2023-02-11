@@ -21,6 +21,7 @@ dotenv.config();
 const userRoutes = require('./routes/user');
 const expenseRoutes = require('./routes/expense');
 const purchaseRoutes = require('./routes/purchase');
+const premiumRoutes = require('./routes/premium');
 
 // here we are requiring all the models
 
@@ -33,6 +34,7 @@ const purchase = require('./models/purchase');
 app.use("/user",userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", purchaseRoutes);
+app.use('/premium', premiumRoutes);
 
 // here we are doing the associations
 
