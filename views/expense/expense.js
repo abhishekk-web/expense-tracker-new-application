@@ -104,7 +104,7 @@ function showLeaderBoard(){
         var leaderboardElem = document.getElementById('leaderboard');
         document.getElementById('leaderboard').style = "color: black; margin-top: 20px; border-top: 2px solid lightgrey; padding-bottom: 50px;"
         leaderboardElem.innerHTML += '<h1 style="color: black;">Leader Board</h1>';
-        userLeaderBoardArray.data.forEach((userDetails) => {
+        userLeaderBoardArray.data.users.forEach((userDetails) => {
             if(userDetails.total_cost === null){
                 userDetails.total_cost = 0;
             }

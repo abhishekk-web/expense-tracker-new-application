@@ -50,7 +50,7 @@ exports.update = async(req, res) => {
         const promise1 = await purchase.update({paymentId: payment_id, status: "Successful"});
         const promise2 = await req.user.update({isPremiumUser: true});
         Promise.all([promise1, promise2]).then(()=> {
-            return res.status(200).json({success: true, message: "Transaction successful", token:userController.generateAccessToken(userId, undefined, true)})
+            return res.status(200).json({success: true, message: "Transaction successful", token:userController.generateAccessToken(userId, undefined, true)}) // here we are updating the token
         })
 
     }
