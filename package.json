@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
@@ -9,7 +10,8 @@
     "mysql2": "^3.1.2",
     "nodemon": "^2.0.20",
     "razorpay": "^2.8.4",
-    "sequelize": "^6.28.0"
+    "sequelize": "^6.28.0",
+    "uuid": "^9.0.0"
   },
   "name": "expense-tracker-new-application",
   "description": "��#\u0000 \u0000e\u0000x\u0000p\u0000e\u0000n\u0000s\u0000e\u0000-\u0000t\u0000r\u0000a\u0000c\u0000k\u0000e\u0000r\u0000-\u0000n\u0000e\u0000w\u0000-\u0000a\u0000p\u0000p\u0000l\u0000i\u0000c\u0000a\u0000t\u0000i\u0000o\u0000n\u0000\r\u0000 \u0000",

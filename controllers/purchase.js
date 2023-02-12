@@ -14,7 +14,7 @@ exports.purchase = async(req, res) => {
 
         const amount = 2500;
         console.log(amount);
-        razorpay.orders.create({amount, currency: "INR"}, async(err, order)=> {
+        razorpay.orders.create({amount, currency: "INR"}, async(err, order)=> {  
 
             try {
 

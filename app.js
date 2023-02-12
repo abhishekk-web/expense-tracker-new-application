@@ -22,12 +22,14 @@ const userRoutes = require('./routes/user');
 const expenseRoutes = require('./routes/expense');
 const purchaseRoutes = require('./routes/purchase');
 const premiumRoutes = require('./routes/premium');
+const forgotRoutes = require('./routes/reset');
 
 // here we are requiring all the models
 
 const user = require('./models/user');
 const expense = require('./models/expense');
 const purchase = require('./models/purchase');
+const forgot = require('./models/reset');
 
 // we are using all the routes here
 
@@ -35,6 +37,7 @@ app.use("/user",userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", purchaseRoutes);
 app.use('/premium', premiumRoutes);
+app.use('/password', forgotRoutes);
 
 // here we are doing the associations
 
@@ -43,6 +46,9 @@ expense.belongsTo(user);
 
 user.hasMany(purchase);
 purchase.belongsTo(user);
+
+user.hasMany(forgot);
+forgot.belongsTo(user);
 
 // our server is running here
 

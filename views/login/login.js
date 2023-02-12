@@ -32,3 +32,12 @@ catch(err){
 }
 
 }
+
+// we are calling the resetpassword function here
+
+function resetpassword() {
+
+    window.location.href = '../reset/reset.html'
+
+}
+
