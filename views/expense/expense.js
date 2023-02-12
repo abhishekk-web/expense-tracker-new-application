@@ -17,9 +17,10 @@ async function mySave(e){
 
     const token = localStorage.getItem("token");
     const response = await axios.post('http://localhost:3000/expense/addexpense', expenseDetails, {headers: {"Authorization": token}});
+    console.log(response);
     if(response.status === 200){
         alert(response.data.message);
-        showExpenses(response.data.data);
+        showExpenses(response.data.expense);
     }
     else{
         alert("Something went wrong");
@@ -105,10 +106,10 @@ function showLeaderBoard(){
         document.getElementById('leaderboard').style = "color: black; margin-top: 20px; border-top: 2px solid lightgrey; padding-bottom: 50px;"
         leaderboardElem.innerHTML += '<h1 style="color: black;">Leader Board</h1>';
         userLeaderBoardArray.data.users.forEach((userDetails) => {
-            if(userDetails.total_cost === null){
-                userDetails.total_cost = 0;
+            if(userDetails.totalExpense === null){
+                userDetails.totalExpense = 0;
             }
-          leaderboardElem.innerHTML += `<li style="text-decoration: none; font-weight: bold; color: black; border-radius: 5px; padding-top: 7px; width: 500px; height: 50px; margin-top: 20px; font-size: 20px;">Name - ${userDetails.name} Expense - ${userDetails.total_cost}</li>`;
+          leaderboardElem.innerHTML += `<li style="text-decoration: none; font-weight: bold; color: black; border-radius: 5px; padding-top: 7px; width: 500px; height: 50px; margin-top: 20px; font-size: 20px;">Name - ${userDetails.name} Expense - ${userDetails.totalExpense}</li>`;
         })
       }
       document.getElementById("message").appendChild(inputElement);

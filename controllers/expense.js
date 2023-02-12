@@ -1,4 +1,5 @@
 const Expense = require('../models/expense');   // here we are requiring the expense model
+const User = require('../models/user');
 
 // this is the controller of adding the expense into the database
 
@@ -8,9 +9,14 @@ exports.addExpense = async (req, res) => {
 
     const {expense, description, category} = req.body;
         const userId = req.user.id;
+        const amount = req.user.totalExpense;
         console.log(userId);
-    const data = await req.user.createExpense({expense:expense, description:description, category:category});
-    res.status(200).json({success: true, message: "successfully saving expense", data:data});
+        console.log(amount);
+        const expenses = await Expense.create({expense:expense, description:description, category:category, userId: req.user.id})
+            const totalExpense = Number(req.user.totalExpense) + Number(expenses.expense);
+            console.log(totalExpense);
+            await User.update({totalExpense:totalExpense}, {where: {id: req.user.id}})
+            res.status(200).json({success: true, message: "successfully added expense",expense:expenses})
 
     }
     catch(err){

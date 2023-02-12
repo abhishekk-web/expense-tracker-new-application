@@ -8,15 +8,7 @@ exports.premium = async (req, res) => {
 
         const users = await User.findAll({
 
-            attributes: ['id', 'name', [sequelize.fn('sum', sequelize.col('expenses.expense')), 'total_cost']], // here we are taking the id and name through users table and we took expenses.expense from the model where we define model = expense
-            include: [
-                {
-                    model: Expense,
-                    attributes: []
-                }
-            ],
-            group: 'user.id', // user.id is like we are taking all the ids so that we can show all users
-            order: [['total_cost', "DESC"]]  // it is for sorting the total cost in a descending order
+            order: [['totalExpense', "DESC"]]  // it is for sorting the total cost in a descending order
 
         });
 
