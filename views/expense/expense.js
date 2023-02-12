@@ -227,3 +227,20 @@ document.getElementById("rzp-button1").onclick = async(e) => {
 
 }
 
+// here we are using download function so that user can download his expenses that he stored
+
+async function download() {
+
+    try {
+
+        console.log("download");
+
+    }
+
+    catch(err){
+
+        console.log(err)
+
+    }
+
+}
