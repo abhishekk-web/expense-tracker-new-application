@@ -5,42 +5,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const ForgotPasswords = require('../models/reset');
 
-exports.resets = async (req, res) => {
-
-    try{
-
-        const id = req.params.id;
-        const forgotPasswordRequest = await ForgotPasswords.findOne({where: {id}});
-        if(forgotPasswordRequest){
-
-            forgotPasswordRequest.update({active: false});
-            res.status(200).send(`<html>
-            <script>
-                function formsubmitted(e){
-                    e.preventDefault();
-                    console.log('called')
-                }
-                </script>
-                <div style="height: 100%;">
-                <form style="border: 2px solid black; border-radius: 4px; margin-top: 200px;text-align: center;height: 180px;width: 700px; margin-left: 350px;" action="/password/updatepassword/${id}" method="get">
-                    <br><br><label style="font-weight: bold" for="newpassword">Enter New password</label><br><br>
-                    <input style="width: 300px" name="newpassword" type="password" placeholder="Enter your new password" required></input><br><br>
-                    <button>reset password</button>
-                </form>
-                </div>
-        </html>`)
-
-        res.send();
-            
-        }
-
-    }
-    catch(err) {
-        console.log(err);
-    }
-
-}
-
+// this is the forgot password, here we got the key that will help us to use that key for reseting the password
 
 exports.forgot = async(req, res) => {
 
@@ -89,6 +54,47 @@ exports.forgot = async(req, res) => {
     }
 
 }
+
+// here we are reseting our password and sending a form where we have to change the password
+
+exports.resets = async (req, res) => {
+
+    try{
+
+        const id = req.params.id;
+        const forgotPasswordRequest = await ForgotPasswords.findOne({where: {id}});
+        if(forgotPasswordRequest){
+
+            forgotPasswordRequest.update({active: false});
+            res.status(200).send(`<html>
+            <script>
+                function formsubmitted(e){
+                    e.preventDefault();
+                    console.log('called')
+                }
+                </script>
+                <div style="height: 100%;">
+                <form style="border: 2px solid black; border-radius: 4px; margin-top: 200px;text-align: center;height: 180px;width: 700px; margin-left: 350px;" action="/password/updatepassword/${id}" method="get">
+                    <br><br><label style="font-weight: bold" for="newpassword">Enter New password</label><br><br>
+                    <input style="width: 300px" name="newpassword" type="password" placeholder="Enter your new password" required></input><br><br>
+                    <button>reset password</button>
+                </form>
+                </div>
+        </html>`)
+
+        res.send();
+            
+        }
+
+    }
+    catch(err) {
+        console.log(err);
+    }
+
+}
+
+
+// here we are updating our password
 
 exports.update = async(req, res) => {
 
