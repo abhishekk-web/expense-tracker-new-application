@@ -1,5 +1,8 @@
 const Expense = require('../models/expense');   // here we are requiring the expense model
 const User = require('../models/user');
+const downloads = require('../models/download');
+const S3Services = require('../services/S3services');
+const userservice = require('../services/userservices');
 
 // this is the controller of adding the expense into the database
 
@@ -62,6 +65,30 @@ exports.deleteExpense = async (req, res) => {
         res.status(200).json({message: "expense successfully deleted"});
 
     }
+    catch(err){
+        console.log(err);
+    }
+
+}
+
+exports.download = async(req, res) => {
+
+    try {
+
+        const expenses = await userservice.getExpenses(req);
+        console.log(expenses);
+        const stringifiedExpenses = JSON.stringify(expenses);
+
+        const userId = req.user.id;
+
+        const filename = `Expenses${userId}/${new Date()}.txt`;
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, filename);
+        res.status(200).json({fileURL, success: true})
+        await downloads.create({fileUrl: fileURL, userId: userId});
+        
+
+    }
+
     catch(err){
         console.log(err);
     }

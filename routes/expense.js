@@ -11,6 +11,8 @@ const authController = require("../middleware/auth");
 
 router.get("/expenses", authController.authenticate, expenseController.getExpense);
 
+router.get('/download', authController.authenticate, expenseController.download);
+
 router.post("/addexpense", authController.authenticate, expenseController.addExpense);
 
 router.delete("/deleteexpense/:id", authController.authenticate, expenseController.deleteExpense);

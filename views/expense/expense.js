@@ -229,18 +229,29 @@ document.getElementById("rzp-button1").onclick = async(e) => {
 
 // here we are using download function so that user can download his expenses that he stored
 
-async function download() {
+async function download(e) {
 
     try {
 
-        console.log("download");
+        // e.preventDefault();
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:3000/expense/download", {headers: {"Authorization": token}});
+        console.log(response);
+        if(response.status === 200) {
+            var a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download = 'myexpense.csv';
+            a.click();
+        }
+        else{
+            throw new Error(response.data.message);
+        }
 
     }
 
-    catch(err){
-
-        console.log(err)
-
+    catch(err)
+    {
+        console.log(err);
     }
 
 }
