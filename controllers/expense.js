@@ -33,9 +33,38 @@ exports.addExpense = async (req, res) => {
 exports.getExpense = async (req, res) => {
 
     try {
+        
+        const ITEMS_PER_PAGE = 2;
+
+        const page = +req.query.page || 1;
+        console.log("page no is "+page);
+        var totalItems;
+
         const userId = req.user.id;
-        const data = await Expense.findAll({where:{userId:userId}});
-        res.status(200).json({data:data});
+        
+        await Expense.count({where: {userId: userId}}).then((data)=> {
+            totalItems = data;
+            return Expense.findAll({where: 
+                    {userId: userId},
+                    offset: (page - 1) * ITEMS_PER_PAGE,
+                    limit: ITEMS_PER_PAGE 
+                });
+            }).then(datas=>{
+                res.json({
+                data: datas,
+                currentPage: page,
+                hasnextPage: ITEMS_PER_PAGE * page < totalItems,
+                nextPage: +page + 1,
+                hasPreviousPage: page > 1,
+                previousPage: +page - 1,
+                lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+                })
+                console.log(datas);
+            })
+        
+
+        
+        // res.status(200).json({data:data});
 
     }
     catch(err){
@@ -86,7 +115,7 @@ exports.download = async(req, res) => {
         res.status(200).json({fileURL, success: true})
         await downloads.create({fileUrl: fileURL, userId: userId});
         
-
+//
     }
 
     catch(err){

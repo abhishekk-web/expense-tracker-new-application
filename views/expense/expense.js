@@ -37,7 +37,8 @@ async function mySave(e){
 
 window.addEventListener("DOMContentLoaded",  () => {
 
-    showPost();
+    const page = 1;
+    showPost(page);
 
 })
 
@@ -55,7 +56,7 @@ function parseJwt (token) {
 
 // the function is showing all the expenses in the screen by getting data from the backend
 
-async function showPost() {
+async function showPost(page) {
 
     try {
         
@@ -72,12 +73,13 @@ async function showPost() {
             showLeaderBoard();
 
         }
-        const response = await axios.get("http://localhost:3000/expense/expenses", {headers: {"Authorization": token}});
+        const response = await axios.get(`http://localhost:3000/expense/expenses?page=${page}`, {headers: {"Authorization": token}});
         console.log(response);
         response.data.data.forEach(expense => {
             showExpenses(expense);
         })
-   
+        
+        showPagination(response.data.currentPage, response.data.hasnextPage, response.data.nextPage, response.data.hasPreviousPage, response.data.previousPage, response.data.lastPage);
 
     }
     catch(err){
@@ -254,4 +256,40 @@ async function download(e) {
         console.log(err);
     }
 
+}
+
+// we are making a function of pagination here
+
+async function showPagination (currentPage, hasnextPage, nextPage, hasPreviousPage, previousPage, lastPage){
+
+    try {
+
+    pagination.innerHTML = '';
+    console.log("yes its empty");
+    if(hasPreviousPage){
+        const btn2 = document.createElement('button')
+        btn2.classList.add('active');
+        btn2.innerHTML = previousPage
+        btn2.addEventListener('click', () => showPost(previousPage));
+        pagination.appendChild(btn2)
+    }
+        const btn1 = document.createElement('button')
+        btn1.classList.add('active');
+        btn1.innerHTML = `<h3>${currentPage}</h3>`
+        btn1.addEventListener('click', () => showPost(currentPage));
+        pagination.appendChild(btn1);
+
+
+    if(hasnextPage) {
+        const btn3 = document.createElement('button');
+        btn3.classList.add('active');
+        btn3.innerHTML = nextPage
+        btn3.addEventListener('click', () => showPost(nextPage))
+        pagination.appendChild(btn3);
+    }
+
+    }
+    catch(err){
+        console.log(err);
+    }
 }
