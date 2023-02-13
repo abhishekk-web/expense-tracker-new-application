@@ -36,14 +36,18 @@ exports.getExpense = async (req, res) => {
         
         const ITEMS_PER_PAGE = 2;
 
+        // we are getting the page number through query
         const page = +req.query.page || 1;
         console.log("page no is "+page);
         var totalItems;
 
         const userId = req.user.id;
         
+        // we are counting the expenses
         await Expense.count({where: {userId: userId}}).then((data)=> {
             totalItems = data;
+
+            // then we are returning the expenses with pagination
             return Expense.findAll({where: 
                     {userId: userId},
                     offset: (page - 1) * ITEMS_PER_PAGE,
@@ -100,6 +104,8 @@ exports.deleteExpense = async (req, res) => {
 
 }
 
+// we are calling the download function here
+
 exports.download = async(req, res) => {
 
     try {
@@ -115,7 +121,7 @@ exports.download = async(req, res) => {
         res.status(200).json({fileURL, success: true})
         await downloads.create({fileUrl: fileURL, userId: userId});
         
-//
+
     }
 
     catch(err){
